@@ -8,34 +8,37 @@ import joblib
 # Charger le dataset
 df = pd.read_csv("data/messages.csv")
 
-# 1. Vectorisation
+# Nettoyage : supprimer les doublons
+df = df.drop_duplicates(subset=["text"])
+
+# Modèle binaire spam vs ham
+X = df["text"]
+y = df["label"]
+
 vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(df["text"])
+X_vec = vectorizer.fit_transform(X)
 
-# 2. Séparation train/test
-X_train, X_test, y_train, y_test = train_test_split(
-    X, df["label"], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_vec, y, test_size=0.2, random_state=42)
 
-# 3. Entraînement
-model = MultinomialNB()
-model.fit(X_train, y_train)
+model_spam = MultinomialNB()
+model_spam.fit(X_train, y_train)
 
-# 4. Prédiction
-y_pred = model.predict(X_test)
+print("Évaluation spam vs ham :")
+print(classification_report(y_test, model_spam.predict(X_test)))
 
-# 5. Évaluation
-print(classification_report(y_test, y_pred))
-
-# 6. Sauvegarde
-joblib.dump(model, "model.pkl")
+# Sauvegarde
+joblib.dump(model_spam, "model_spam.pkl")
 joblib.dump(vectorizer, "vectorizer.pkl")
 
-# 7. Rechargement
-model = joblib.load("model.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
+# Modèle multi-classe pour les catégories (seulement sur les spams)
+df_spam = df[df["label"] == "spam"]
+X_spam = vectorizer.transform(df_spam["text"])
+y_spam = df_spam["spam_category"]
 
-# Exemple d’utilisation
-message = ["Vous avez gagné un iPhone"]
-X = vectorizer.transform(message)
-print(model.predict(X))
+model_category = MultinomialNB()
+model_category.fit(X_spam, y_spam)
 
+print("Évaluation catégories spam :")
+print(classification_report(y_spam, model_category.predict(X_spam)))
+
+joblib.dump(model_category, "model_category.pkl")

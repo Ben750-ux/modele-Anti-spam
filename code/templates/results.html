@@ -2,117 +2,86 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Analyse des Messages</title>
+    <title>Résultat</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #f4f6f9, #e8ecf3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
             margin: 0;
-            padding: 1rem;
-            color: #2c3e50;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
         h1 {
             text-align: center;
-            color: #0d48b1;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-        }
-        .table-container {
-            max-width: 900px;
-            margin: auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-            overflow-x: auto; /* scroll horizontal si besoin */
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 400px;
-        }
-        thead {
-            background: #0d48b1;
-            color: #fff;
-        }
-        th, td {
-            padding: 0.8rem;
-            text-align: left;
-        }
-        tr:nth-child(even) {
-            background: #f9f9f9;
+            color: #333;
+            margin-bottom: 20px;
         }
         .spam {
-            color: #e74c3c;
+            color: #d9534f;
             font-weight: bold;
+            font-size: 18px;
         }
-        .normal {
-            color: #2ecc71;
+        .ham {
+            color: #28a745;
             font-weight: bold;
+            font-size: 18px;
         }
-        .badge {
-            padding: 0.3rem 0.6rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
+        .category {
+            margin-top: 15px;
+            font-size: 16px;
+            color: #555;
         }
-        .badge.spam { background: #ffe5e5; }
-        .badge.normal { background: #e5ffe5; }
-        .footer {
-            text-align: center;
-            margin-top: 1.5rem;
+        .warning {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #856404;
+            font-size: 15px;
         }
-        .footer a {
+        a {
+            display: inline-block;
+            margin-top: 25px;
             text-decoration: none;
-            color: #0d48b1;
-            font-weight: bold;
+            color: #007bff;
+            font-size: 15px;
         }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 1.6rem;
-            }
-            th, td {
-                padding: 0.6rem;
-                font-size: 0.9rem;
-            }
+        a:hover {
+            text-decoration: underline;
         }
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.4rem;
+        /* Responsive mobile */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
             }
-            th, td {
-                padding: 0.5rem;
-                font-size: 0.8rem;
+            .spam, .ham {
+                font-size: 16px;
             }
-            .badge {
-                font-size: 0.75rem;
-                padding: 0.2rem 0.5rem;
+            .category, .warning {
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <h1>📊 Résultats de l'Analyse</h1>
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Message</th>
-                    <th>Catégorie</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for msg, pred in results %}
-                <tr>
-                    <td>{{ msg }}</td>
-                    <td><span class="badge {{ pred|lower }}">{{ pred }}</span></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="footer">
-        <a href="/">⬅ Retour à l'analyse</a>
+    <div class="container">
+        <h1>Résultat de l'analyse</h1>
+        {% if prediction == "spam" %}
+            <p class="spam">⚠️ Message détecté comme <strong>SPAM</strong></p>
+            <p class="category">Catégorie : <strong>{{ category }}</strong></p>
+            <p class="warning">⚠️ Attention : Ne cliquez sur aucun lien ni pièce jointe.</p>
+        {% else %}
+            <p class="ham">✅ Message normal.</p>
+        {% endif %}
+        <a href="/">↩ Retour</a>
     </div>
 </body>
 </html>

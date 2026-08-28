@@ -2,104 +2,64 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>IA Détecteur de Spam</title>
+    <title>Détecteur de Spam</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #f4f6f9, #e8ecf3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
             margin: 0;
             padding: 0;
-            color: #2c3e50;
         }
         .container {
-            max-width: 900px;
-            margin: 3rem auto;
-            background: #fff;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
         h1 {
             text-align: center;
-            margin-bottom: 1rem;
-            font-size: 2.2rem;
-            color: #0d48b1;
-        }
-        p {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            color: #555;
+            color: #333;
+            margin-bottom: 20px;
         }
         textarea {
-            width: 95%; /* évite de coller aux bords */
-            min-height: 180px;
-            padding: 1rem;
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            margin-bottom: 20px;
             border: 1px solid #ccc;
-            border-radius: 12px;
-            font-size: 1rem;
-            margin: 0 auto 1.5rem auto; /* centré */
-            display: block;
-            resize: vertical;
-            outline: none;
-            background: #f9f9f9;
-            color: #2c3e50;
-        }
-        textarea::placeholder {
-            color: #aaa;
+            border-radius: 8px;
+            resize: none;
+            font-size: 15px;
         }
         button {
             display: block;
-            width: 95%;
-            margin: 0 auto;
-            background: #0d48b1;
-            color: #fff;
+            width: 100%;
+            padding: 14px;
+            background: #007bff;
+            color: white;
             border: none;
-            padding: 1rem;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            border-radius: 8px;
+            font-size: 17px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease;
         }
         button:hover {
-            background: #09357d;
-            transform: scale(1.05);
+            background: #0056b3;
         }
-        .footer {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            color: #777;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
+        /* Responsive mobile */
+        @media (max-width: 600px) {
             .container {
-                margin: 1.5rem;
-                padding: 1.5rem;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            textarea, button {
-                width: 100%; /* sur mobile, prend toute la largeur */
-            }
-        }
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            p {
-                font-size: 1rem;
+                margin: 20px;
+                padding: 20px;
             }
             textarea {
-                min-height: 140px;
-                font-size: 0.9rem;
+                min-height: 100px;
             }
             button {
-                font-size: 1rem;
-                padding: 0.8rem;
+                font-size: 15px;
+                padding: 12px;
             }
         }
     </style>
@@ -107,15 +67,10 @@
 <body>
     <div class="container">
         <h1>📩 IA Détecteur de Spam</h1>
-        <p>Collez vos messages ci‑dessous (un par ligne) et laissez l’IA analyser automatiquement.</p>
-        <form method="post">
-            <textarea name="messages" placeholder="Exemple :&#10;Salut, peux‑tu me confirmer la réunion de demain à 10h ?&#10;Merci pour ton aide hier, c’était vraiment utile.&#10;Félicitations ! Vous avez gagné un iPhone 15. Cliquez ici pour réclamer votre prix."></textarea>
-            <button type="submit">🔍 Analyser les messages</button>
+        <form method="POST" action="/analyze">
+            <textarea name="message" placeholder="Collez un seul message ici..." required></textarea>
+            <button type="submit">Analyser</button>
         </form>
-        <div class="footer">
-            Propulsé par Flask + Scikit‑learn
-        </div>
     </div>
 </body>
 </html>
-s
